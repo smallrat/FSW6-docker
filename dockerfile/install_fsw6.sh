@@ -20,7 +20,7 @@ create_fsw_instance(){
 
 echo "Install FSW 6 ..."
 
-## java -jar ${FSW6_INSTALLER} /opt/fsw6_installer.cfg
+java -jar ${FSW6_INSTALLER} /opt/fsw6_installer.cfg
 
 echo "Start server ..."
 
