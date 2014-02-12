@@ -25,12 +25,12 @@ RUN java -jar /opt/jboss-fsw-installer-6.0.0.GA-redhat-4.jar /opt/fsw6_installer
 RUN sed -i 's;value=\"\${jboss\.bind\.address\.management:.*$;value=\"\${jboss.bind.address.management:0.0.0.0}"/>;g' /opt/jboss-fsw6/jboss-eap-6.1/standalone/configuration/standalone.xml
 RUN sed -i 's;value=\"\${jboss\.bind\.address:.*$;value=\"\${jboss.bind.address:0.0.0.0}"/>;g' /opt/jboss-fsw6/jboss-eap-6.1/standalone/configuration/standalone.xml
 
-##################
-## TODO : nohup
-##        set offset to 10000
-##################
+# Change offset
+RUN sed -i 's;port-offset=\"\${jboss\.socket\.binding\.port-offset:.*$;port-offset=\"\${jboss.socket.binding.port-offset:10000}">;g' /opt/jboss-fsw6/jboss-eap-6.1/standalone/configuration/standalone.xml
 
 ENV RHQ_SERVER_JAVA_EXE_FILE_PATH /usr/bin/java
 
 ENTRYPOINT './opt/jboss-fsw6/jboss-eap-6.1/bin/standalone.sh';\
 /bin/bash
+
+

@@ -1,1 +1,1 @@
-docker run -t -i -p 18080:8080 -p 19990:9990 92ee9a7755ef /bin/bash
+docker run -t -i -p 18080:18080 -p 19990:19990 92ee9a7755ef /bin/bash
