@@ -21,28 +21,19 @@ RUN wget https://raw2.github.com/tplevko/FSW6-docker/master/dockerfile/fsw6_inst
 # Get startup script for FSW6
 RUN wget https://raw2.github.com/tplevko/FSW6-docker/master/dockerfile/install_fsw6.sh -O /opt/install_fsw6.sh
 
-# Go to opt directory
-# RUN cd /opt
-
 # execute the install script to install and start the FSW6 platform
-RUN sh /opt/install_fsw6.sh
-
-# java -jar jboss-fsw-installer-6.0.0.GA-redhat-4.jar /opt/fsw6_installer.cfg
-
-#######################
-### TODO
-#######################
-
+RUN java -jar /opt/jboss-fsw-installer-6.0.0.GA-redhat-4.jar /opt/fsw6_installer.cfg
 
 # Change jboss.bind.address
-## RUN sed 's/rhq.server.management.password=/rhq.server.management.password=35c160c1f841a889d4cda53f0bfc94b6/;s/jboss.bind.address=/jboss.bind.address=0.0.0.0/;s/rhq.storage.nodes=/rhq.storage.nodes=127.0.0.1/'  /opt/rhq-server-4.9.0/bin/rhq-server.properties > rhq-server.properties
+RUN sed -i 's;value=\"\${jboss\.bind\.address\.management:.*$;value=\"\${jboss.bind.address.management:0.0.0.0}"/>;g' /opt/jboss-fsw6/jboss-eap-6.1/standalone/configuration/standalone.xml
+RUN sed -i 's;value=\"\${jboss\.bind\.address:.*$;value=\"\${jboss.bind.address:0.0.0.0}"/>;g' /opt/jboss-fsw6/jboss-eap-6.1/standalone/configuration/standalone.xml
 
-# Replace old properties file with the new one
-## RUN cp -u rhq-server.properties  /opt/rhq-server-4.9.0/bin/rhq-server.properties
+##################
+## TODO : nohup
+##        set offset to 10000
+##################
 
 ENV RHQ_SERVER_JAVA_EXE_FILE_PATH /usr/bin/java
 
-## ENTRYPOINT  expect -c ' spawn su -l postgres -c " pg_ctl start " ; expect -re   "pg_log" {send \"\r\"; exp_continue } }' ;\
-## su root  -c ' ./opt/rhq-server-4.9.0/bin/rhqctl install  --agent-preference="127.0.0.1" ';\
+ENTRYPOINT './opt/jboss-fsw6/jboss-eap-6.1/bin/standalone.sh';\
 /bin/bash
-
