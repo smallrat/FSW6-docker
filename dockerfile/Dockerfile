@@ -18,9 +18,6 @@ ADD jboss-fsw-installer-6.0.0.GA-redhat-4.jar /opt/
 # Get install .cfg file for FSW6
 RUN wget https://raw2.github.com/tplevko/FSW6-docker/master/dockerfile/fsw6_installer.cfg -O /opt/fsw6_installer.cfg
 
-# Get startup script for FSW6
-RUN wget https://raw2.github.com/tplevko/FSW6-docker/master/dockerfile/install_fsw6.sh -O /opt/install_fsw6.sh
-
 # execute the install script to install and start the FSW6 platform
 RUN java -jar /opt/jboss-fsw-installer-6.0.0.GA-redhat-4.jar /opt/fsw6_installer.cfg
 
